@@ -4,7 +4,7 @@ $valor = '';
 $desde = '';
 $hasta = '';
 
-//Convertiremos a metros...
+//Convertiremos desde metros...
 
 function cmetros($valor, $unidad_desde){
     switch($unidad_desde){
@@ -44,7 +44,7 @@ function cmetros($valor, $unidad_desde){
     }
 
 }
-
+//Funcion de calculo final...
 function convertir($valor, $unidad_hasta){
     switch($unidad_hasta){
         case 'Milimetro':
@@ -80,7 +80,7 @@ function convertir($valor, $unidad_hasta){
         break;
     }
 }
-
+//Si el envio de post existe entonces obtiene variables y hace la conversion...
 if (isset($_POST["convertir"])){
 
     //Obtenemos variables...
@@ -106,8 +106,9 @@ $resultado = $calcularH;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
     <title>Conversor de Longitud</title>
-    <!-- Agregando estilos al boton...  -->
+    
     <style>
+        /* Agregando estilos al boton... */
         .btn-morado {
             background-color: purple;
             color: white;
@@ -130,13 +131,29 @@ $resultado = $calcularH;
             font-size: 1em;
             color: gray;
         }
+
+        /* Agregando efectos mayor enfoque en el campo valor... */
+
+        input[name="valor"]:focus {
+            outline: none;
+            box-shadow: 0 0 60px rgba(81, 203, 238, 1);
+            border: 2px solid rgba(81, 203, 238, 1);
+        }
         
     </style>
-    <!-- Un poco de JavaScript si el usuario no selecciona ambas mediadas de unidad...  -->
     <script>
+        //Un poco de JavaScript si el usuario no selecciona ambas mediadas de unidad...
         function validarFormulario() {
+            var valor = document.forms["conversionForm"]["valor"].value;
             var desde = document.forms["conversionForm"]["desde"].value;
             var hasta = document.forms["conversionForm"]["hasta"].value;
+            
+            //Esta funcion valida que el campo valor no se envie estando vacia..
+            if (valor === "" || isNaN(valor)) {
+                alert("Debes ingresar un número.");
+                return false;
+            }
+            
             if (desde == "--Seleccione un valor--" || hasta == "--Seleccione un valor--") {
                 alert("Por favor, seleccione ambas medidas de unidad.");
                 return false;
@@ -154,7 +171,7 @@ $resultado = $calcularH;
             <div class="row mt-4" >
                 <div class="col-sm-4">
                     <label for="valor">VALOR: </label>
-                    <input type="number" name="valor" class="form-control" value="">
+                    <input type="number" name="valor" class="form-control" value="0" required>
  
                 </div>
  
@@ -198,7 +215,8 @@ $resultado = $calcularH;
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="valor">RESULTADO: </label>
-                        <input type="text" name="resultado" class="form-control" value="<?php  if(isset($resultado)) echo $resultado; ?>">
+                        <!-- Agregamos readonly para que no puedan manipular el resultado...  -->
+                        <input type="text" name="resultado" class="form-control" value="<?php  if(isset($resultado)) echo $resultado; ?>" readonly>
                     </div>
                 </div>
             </div>
@@ -206,7 +224,7 @@ $resultado = $calcularH;
                 <div class="texto-inferior-izquierda">© Alberto Arias Flores</div>
             </footer>
             
-        </formform>
+        </form>
     </div>  
     
  
